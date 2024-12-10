@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">MAD-Final</string>
+    <string name="title">The Sequence Game</string>
+    <string name="subtitle">MAD Final Project</string>
+    <string name="button_play">PLAY</string>
+    <string name="button_replay">START OVER</string>
+    <string name="button_rewatch">WATCH AGAIN</string>
+    <string name="button_leaderboard">LEADERBOARD</string>
+    <string name="button_confirm">CONFIRM</string>
+    <string name="button_confirmed">CONFIRMED</string>
+    <string name="button_generate">VIEW SEQUENCE</string>
+    <string name="button_next">NEXT DIRECTION</string>
+    <string name="button_finish">FINISH</string>
+    <string name="sequence_warning">Watch closely!</string>
+    <string name="sequence_ready">Ready?</string>
+    <string name="end">GAME OVER</string>
+    <string name="end_score">Your final score is: </string>
+    <string name="end_option1">Wow! Your score earned you a spot on the leaderboard!</string>
+    <string name="end_option2">Your score doesn\'t qualify for the leaderboard...</string>
+    <string name="end_placeholder">Enter your name to register</string>
+    <string name="end_warning1">Your name must be between 3 and 16 characters</string>
+    <string name="leaderboard_title">TOP SCORES</string>
+    <string name="game_info">Repeat the sequence</string>
+    <string name="game_info2">Tip: Tilt your phone in the direction of the arrows</string>
+</resources>
