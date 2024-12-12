@@ -17,6 +17,7 @@
     <string name="end_score">Your final score is: </string>
     <string name="end_option1">Wow! Your score earned you a spot on the leaderboard!</string>
     <string name="end_option2">Your score doesn\'t qualify for the leaderboard...</string>
+    <string name="end_option3">Your name has been submitted to the leaderboard!</string>
     <string name="end_placeholder">Enter your name to register</string>
     <string name="end_warning1">Your name must be between 3 and 16 characters</string>
     <string name="leaderboard_title">TOP SCORES</string>

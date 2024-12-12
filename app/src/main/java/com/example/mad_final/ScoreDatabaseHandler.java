@@ -76,18 +76,21 @@ public class ScoreDatabaseHandler extends SQLiteOpenHelper {
         // https://stackoverflow.com/questions/71636656/check-if-table-is-empty-in-sqlite
         String query = "SELECT count(*) FROM (select 1 from records limit 1)";
         Cursor cursor = db.rawQuery(query, null);
-        if(cursor.moveToFirst()) {
-            if(cursor.getInt(0) != 0) {
-                cursor.close();
-                return true;
+        try {
+            if(cursor.moveToFirst()) {
+                if(cursor.getInt(0) != 1) {
+                    cursor.close();
+                    return true;
+                } else {
+                    cursor.close();
+                    return false;
+                }
             } else {
                 cursor.close();
                 return false;
             }
-        } else {
-            cursor.close();
-            return false;
+        } catch (Exception e) {
+            return true;
         }
-
     }
 }

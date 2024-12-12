@@ -79,6 +79,7 @@
         android:layout_height="wrap_content"
         android:visibility="invisible"
         android:text="@string/button_confirm"
+        android:onClick="confirm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/guideline2"
         app:layout_constraintStart_toEndOf="@id/guideline"
