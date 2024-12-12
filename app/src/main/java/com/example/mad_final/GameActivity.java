@@ -22,6 +22,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager sensorManager;
     private Sensor sensor;
 
+    // references to needed views
     private Button button;
 
     private View red;
@@ -34,6 +35,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     private ImageView down;
     private ImageView left;
 
+    // used to keep track of the player's inputs
     private int[] correctSequence = {};
     private boolean gameOnHold = false;
     private int currentIndex = 0;
@@ -51,6 +53,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
             return insets;
         });
 
+        // get refs to needed views
         red = findViewById(R.id.top_choice);
         blue = findViewById(R.id.right_choice);
         yellow = findViewById(R.id.bottom_choice);
@@ -61,6 +64,8 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         down = findViewById(R.id.down);
         right = findViewById(R.id.right);
 
+        button = findViewById(R.id.nextBtn);
+
         // get reference to step detector in the device
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         /* use gyroscope instead of accelerometer because I found out that virtual accelerometer doesn't
@@ -68,11 +73,11 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
          towards its "bottom" nor "top" */
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 
-        button = findViewById(R.id.nextBtn);
-
+        // load data from intent
         correctSequence = getIntent().getIntArrayExtra("sequence");
         currentScore = getIntent().getIntExtra("currentScore", 0);
 
+        // start listening to the gyroscope
         sensorManager.registerListener(this, sensor,
                 SensorManager.SENSOR_DELAY_NORMAL);
     }
@@ -102,6 +107,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
+    // resume the game by resetting the choice and listening to gyroscope again
     public void next(View view) {
         if(currentIndex == correctSequence.length) {
             finishActivity(true);
@@ -113,6 +119,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         button.setVisibility(View.INVISIBLE);
     }
 
+    // lock in a choice by disabling the gyroscope for the moment and displaying the choice
     private void lockChoice(int dir) {
         gameOnHold = true;
         sensorManager.unregisterListener(this, sensor);
@@ -122,6 +129,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         button.setVisibility(View.VISIBLE);
     }
 
+    // logic to check if the player is doing the correct sequence
     private void checkChoice(int dir) {
         if(dir == correctSequence[currentIndex]) {
             currentIndex++;
@@ -137,10 +145,12 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     }
 
     private void finishActivity(boolean isOkay) {
+        // pass data back into the parent activity
         Intent intent = getIntent();
         intent.putExtra("okay", isOkay);
         intent.putExtra("currentScore", currentScore);
         if (!isOkay) {
+            // pass data into the child activity
             Intent nextPage = new Intent(this, EndActivity.class);
             nextPage.putExtra("currentScore", currentScore);
             startActivity(nextPage);
@@ -149,7 +159,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         finish();
     }
 
-
+    // used for changing colours of the views in display
     public void showSequence(int i) {
         switch(i) {
             case 0:
@@ -171,6 +181,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
+    // used for changing colours of the views in display
     public void hideSequence(int i) {
         switch(i) {
             case 0:
@@ -192,6 +203,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
+    // when user opens the app again, register sensor if a selection is in progress
     @Override
     public void onResume() {
         super.onResume();
@@ -201,6 +213,8 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
+    // when user minimizes the app, unregister sensor if a selection is in progress
+    // no need to do anything if the selection is locked in
     @Override
     public void onPause() {
         super.onPause();

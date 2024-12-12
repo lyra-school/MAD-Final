@@ -24,17 +24,20 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        // seed the database at start if it's empty
         ScoreDatabaseHandler db = new ScoreDatabaseHandler(this);
         if(db.isDatabaseEmpty()) {
             databaseSeeder(db);
         }
     }
 
+    // first screen to go to after starting is the sequence screen
     public void goToSequence(View view) {
         Intent sequenceActivity = new Intent(view.getContext(), SequenceActivity.class);
         startActivity(sequenceActivity);
     }
 
+    // premade data to put into the database
     private void databaseSeeder(ScoreDatabaseHandler db) {
         db.addRecord(new RecordEntry("CoolDawg", 69));
         db.addRecord(new RecordEntry("Nia2005", 20));

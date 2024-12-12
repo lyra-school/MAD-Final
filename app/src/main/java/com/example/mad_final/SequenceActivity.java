@@ -26,10 +26,14 @@ import java.util.ListIterator;
 import java.util.Random;
 
 public class SequenceActivity extends AppCompatActivity {
+    // constants needed for managing the sequence count
     private final int SEQUENCE_BASE = 4;
     private final int SEQUENCE_INCREASE = 2;
+
+    // used to identify two-way data sharing between child activity
     private final int REQUEST_CODE = 1;
 
+    // used in display and sequence calculation
     private int[] sequence;
     private int sequenceSize;
     private int currentMultiplier = 0;
@@ -37,6 +41,7 @@ public class SequenceActivity extends AppCompatActivity {
     private int currentScore = 0;
 
 
+    // references to widgets on screen
     private View red;
     private View blue;
     private View yellow;
@@ -65,6 +70,7 @@ public class SequenceActivity extends AppCompatActivity {
             return insets;
         });
 
+        // get refs to all necessary widgets
         red = findViewById(R.id.top_choice);
         blue = findViewById(R.id.right_choice);
         yellow = findViewById(R.id.bottom_choice);
@@ -81,9 +87,12 @@ public class SequenceActivity extends AppCompatActivity {
 
         text = findViewById(R.id.sequence_text);
 
+        // create a sequence
         populateSequenceList(currentMultiplier);
     }
 
+    // creates the game activity with two-way communication, sharing the current score and
+    // sequence
     public void goToGame(View view) {
         Intent gameActivity = new Intent(view.getContext(), GameActivity.class);
         gameActivity.putExtra("sequence", sequence);
@@ -95,10 +104,14 @@ public class SequenceActivity extends AppCompatActivity {
         startActivityForResult(gameActivity, REQUEST_CODE);
     }
 
+    // watch again button - restart the sequence viewing
     public void repeat(View view) {
         startViewing();
     }
 
+    // randomly generate the sequence
+    // usually, these games have a check against generating multiple of the same number in a row
+    // but the lab sheet specifies that it must be "completely random"
     private void populateSequenceList(int multiplier) {
         sequenceSize = SEQUENCE_BASE + (SEQUENCE_INCREASE * multiplier);
         Random random = new Random();
@@ -108,13 +121,18 @@ public class SequenceActivity extends AppCompatActivity {
         }
     }
 
+    // handles actions after the child activity closes
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         try {
             if (requestCode == REQUEST_CODE  && resultCode  == RESULT_OK) {
+                // if isOk is true, then that means that the player didn't mess up in the game activity
+                // and therefore continue the game
                 boolean isOk = data.getBooleanExtra("okay", false);
                 if(isOk) {
+                    // keep track of the current score for next time the game activity is opened
+                    // also increase the number of sequence elements and make a new one
                     currentScore = data.getIntExtra("currentScore", 0);
                     currentMultiplier++;
                     populateSequenceList(currentMultiplier);
@@ -128,10 +146,12 @@ public class SequenceActivity extends AppCompatActivity {
                 finish();
             }
         } catch(Exception e) {
+            // close in case of an exception
             finish();
         }
     }
 
+    // used for changing colours of the views in display
     public void showSequence(int i) {
         switch(i) {
             case 0:
@@ -153,6 +173,7 @@ public class SequenceActivity extends AppCompatActivity {
         }
     }
 
+    // used for changing colours of the views in display
     public void hideSequence(int i) {
         switch(i) {
             case 0:
@@ -174,6 +195,7 @@ public class SequenceActivity extends AppCompatActivity {
         }
     }
 
+    // make watch again and play buttons visible once sequence viewing ends
     private void finishViewing() {
         continueBtn.setVisibility(View.VISIBLE);
         repeatBtn.setVisibility(View.VISIBLE);
@@ -181,6 +203,7 @@ public class SequenceActivity extends AppCompatActivity {
         text.setText(R.string.sequence_ready);
     }
 
+    // make watch again and play buttons invisible once sequence viewing starts again
     private void startViewing() {
         continueBtn.setVisibility(View.INVISIBLE);
         repeatBtn.setVisibility(View.INVISIBLE);
@@ -190,6 +213,7 @@ public class SequenceActivity extends AppCompatActivity {
         viewBtn.setVisibility(View.VISIBLE);
     }
 
+    // the logic that controls highlighting of a view in sequence
     public void viewSequence(View view) {
         if(currentSequenceViewed == sequenceSize - 1) {
             viewBtn.setText(R.string.button_finish);

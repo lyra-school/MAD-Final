@@ -1,5 +1,6 @@
 package com.example.mad_final;
 
+// model class with getters/setters for a single score
 public class RecordEntry {
     private int id;
     private String name;
@@ -7,6 +8,7 @@ public class RecordEntry {
 
     public RecordEntry() {}
 
+    // do not use the third other constructor for inserts -- sqlite should auto generate IDs
     public RecordEntry(String name, int score) {
         this.name = name;
         this.score = score;
