@@ -106,6 +106,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         if(currentIndex == correctSequence.length) {
             finishActivity(true);
         }
+        hideSequence(currentDir);
         gameOnHold = false;
         sensorManager.registerListener(this, sensor,
                 SensorManager.SENSOR_DELAY_NORMAL);

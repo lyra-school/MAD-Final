@@ -97,5 +97,6 @@ public class EndActivity extends AppCompatActivity {
         editName.setVisibility(View.INVISIBLE);
         warningView.setVisibility(View.INVISIBLE);
         outcomeView.setText(R.string.end_option3);
+        btn.setVisibility(View.INVISIBLE);
     }
 }
